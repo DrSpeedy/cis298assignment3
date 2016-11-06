@@ -1,7 +1,8 @@
 # Assignment 3 - Master Detail Wine List with Fragments
 ## Due 11-14-2016
-## Author
 
+## Author
+Brian Wilson
 
 
 ## Description
