@@ -20,25 +20,41 @@ import edu.kvcc.cis298.cis298assignment3.models.Beverage;
 
 public class BeverageRepository extends AbstractBeverageRepository {
 
+    // Log tag
+    private static final String TAG = BeverageRepository.class.getSimpleName();
+
     @SuppressLint("StaticFieldLeak")
     private static BeverageRepository mBeverageRepository;
 
     private Map<String, Beverage> mBeverageMap;
 
+    /**
+     * Get the singleton instance of this BeverageRepository
+     * @param context Hosting activity context
+     * @return BeverageRepository
+     */
     public static BeverageRepository getInstance(Context context) {
         if (mBeverageRepository == null) {
-            return new BeverageRepository(context);
-        } else {
-            return mBeverageRepository;
+            mBeverageRepository = new BeverageRepository(context);
         }
+        return mBeverageRepository;
     }
 
+    /**
+     * Create a new instance of BeverageRepository,
+     * and load in all the data we need from the data source
+     * @param context
+     */
     private BeverageRepository(Context context) {
         super(context);
         mBeverageMap = new HashMap<>();
         reloadBeverages();
     }
 
+    /**
+     * Read in tokens and build beverage models from them to store
+     * in the repository's mapped collection
+     */
     public void reloadBeverages() {
         Resources resources = getContext().getResources();
         InputStream inputStream = resources.openRawResource(R.raw.beverage_list);

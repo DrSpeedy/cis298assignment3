@@ -22,6 +22,7 @@ public class BeverageListActivity extends FragmentActivity {
         FragmentManager fm = getSupportFragmentManager();
         Fragment fragment = fm.findFragmentById(R.id.fragment_container);
 
+        // if the fragment container is null, fill it with the BeverageListFragment
         if (fragment == null) {
             fragment = new BeverageListFragment();
             fm.beginTransaction()

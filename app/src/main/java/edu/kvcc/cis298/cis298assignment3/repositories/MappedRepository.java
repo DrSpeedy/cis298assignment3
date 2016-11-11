@@ -1,6 +1,5 @@
 package edu.kvcc.cis298.cis298assignment3.repositories;
 
-import java.util.Collection;
 import java.util.Map;
 
 /**
@@ -14,7 +13,7 @@ public interface MappedRepository<IdType, Model> {
     void put(IdType id, Model model);
     void putAll(Map<IdType, Model> collection);
 
-    void delete(String id);
+    void delete(IdType id);
 
     int size();
 }

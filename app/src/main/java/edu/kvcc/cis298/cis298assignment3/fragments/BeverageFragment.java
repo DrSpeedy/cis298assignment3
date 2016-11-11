@@ -5,6 +5,7 @@ import android.support.annotation.Nullable;
 import android.support.v4.app.Fragment;
 import android.text.Editable;
 import android.text.TextWatcher;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -23,17 +24,22 @@ import edu.kvcc.cis298.cis298assignment3.repositories.BeverageRepository;
 
 public class BeverageFragment extends Fragment {
 
+    // Log tag
+    private static final String TAG = BeverageFragment.class.getSimpleName();
+    // Key to fetch the itemNumber option from the bundled arguments
     private static final String ARG_ITEM_NUMBER = "item_number";
 
+    // Repository instance that holds all beverage information
     private AbstractBeverageRepository mBeverageRepository;
 
+    // Beverage model
     private Beverage mBeverage;
-    private EditText mBeverageId;
-    private EditText mBeverageTitle;
-    private EditText mEditPack;
-    private EditText mEditPrice;
-    private CheckBox mCheckBoxActive;
 
+    /**
+     * Create a new beverage fragment
+     * @param itemNumber item number of the beverage we'd like to edit
+     * @return fragment
+     */
     public static BeverageFragment newInstance(String itemNumber) {
         Bundle args = new Bundle();
         args.putString(ARG_ITEM_NUMBER, itemNumber);
@@ -43,6 +49,10 @@ public class BeverageFragment extends Fragment {
         return fragment;
     }
 
+    /**
+     * Initialize the fragments member fields
+     * @param savedInstanceState
+     */
     @Override
     public void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -56,32 +66,42 @@ public class BeverageFragment extends Fragment {
         mBeverage = mBeverageRepository.get(itemNumber);
     }
 
+    /**
+     * Inflate the fragment's view, get relevant widget handles, and set listeners on them
+     * @param inflater
+     * @param container
+     * @param savedInstanceState
+     * @return view
+     */
     @Nullable
     @Override
     public View onCreateView(LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
 
         View view = inflater.inflate(R.layout.fragment_beverage, container, false);
 
-        mBeverageTitle = (EditText) view.findViewById(R.id.fragment_beverage_edit_name);
-        mBeverageId = (EditText) view.findViewById(R.id.fragment_beverage_edit_id);
-        mEditPack = (EditText) view.findViewById(R.id.fragment_beverage_edit_pack);
-        mEditPrice = (EditText) view.findViewById(R.id.fragment_beverage_edit_price);
-        mCheckBoxActive = (CheckBox) view.findViewById(R.id.fragment_beverage_checkbox_active);
+        EditText beverageTitle = (EditText) view.findViewById(R.id.fragment_beverage_edit_name);
+        EditText beverageId = (EditText) view.findViewById(R.id.fragment_beverage_edit_id);
+        EditText editPack = (EditText) view.findViewById(R.id.fragment_beverage_edit_pack);
+        EditText editPrice = (EditText) view.findViewById(R.id.fragment_beverage_edit_price);
+        CheckBox checkBoxActive = (CheckBox) view.findViewById(R.id.fragment_beverage_checkbox_active);
 
-        mBeverageTitle.addTextChangedListener(new NameChangedListener());
-        mEditPack.addTextChangedListener(new PackChangedListener());
-        mEditPrice.addTextChangedListener(new PriceChangedListener());
-        mCheckBoxActive.setOnCheckedChangeListener(new ActiveBeverageListener());
+        beverageTitle.addTextChangedListener(new NameChangedListener());
+        editPack.addTextChangedListener(new PackChangedListener());
+        editPrice.addTextChangedListener(new PriceChangedListener());
+        checkBoxActive.setOnCheckedChangeListener(new ActiveBeverageListener());
 
-        mBeverageTitle.setText(mBeverage.getItemDescription());
-        mBeverageId.setText(mBeverage.getItemNumber());
-        mEditPack.setText(mBeverage.getPackSize());
-        mEditPrice.setText(String.valueOf(mBeverage.getCasePrice()));
-        mCheckBoxActive.setChecked(mBeverage.isActive());
+        beverageTitle.setText(mBeverage.getItemDescription());
+        beverageId.setText(mBeverage.getItemNumber());
+        editPack.setText(mBeverage.getPackSize());
+        editPrice.setText(String.valueOf(mBeverage.getCasePrice()));
+        checkBoxActive.setChecked(mBeverage.isActive());
 
         return view;
     }
 
+    /**
+     * Listen for changes in the user's input and update the model accordingly
+     */
     private class NameChangedListener implements TextWatcher {
 
         @Override
@@ -91,6 +111,7 @@ public class BeverageFragment extends Fragment {
 
         @Override
         public void onTextChanged(CharSequence s, int start, int before, int count) {
+            //Log.i(TAG, "NameChangedListener => onTextChanged");
             mBeverage.setItemDescription(s.toString());
         }
 

@@ -11,7 +11,7 @@ import edu.kvcc.cis298.cis298assignment3.models.Beverage;
 public abstract class AbstractBeverageRepository implements MappedRepository<String, Beverage> {
     private Context mContext;
 
-    public AbstractBeverageRepository(Context context) {
+    AbstractBeverageRepository(Context context) {
         mContext = context;
     }
 

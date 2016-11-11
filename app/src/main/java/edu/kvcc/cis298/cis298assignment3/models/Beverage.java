@@ -1,5 +1,6 @@
 package edu.kvcc.cis298.cis298assignment3.models;
 
+import android.support.annotation.Nullable;
 import android.util.Log;
 
 import java.io.Serializable;
@@ -18,6 +19,14 @@ public class Beverage {
     private double mCasePrice;
     private Boolean mActive;
 
+    /**
+     * Create a new Beverage model
+     * @param itemNumber            item/product/id number
+     * @param itemDescription       description/title of the beverage
+     * @param packSize              size that the beverage is sold as
+     * @param casePrice             unit price per case of beverages
+     * @param active                whether the beverage is currently active or not
+     */
     public Beverage(String itemNumber, String itemDescription, String packSize, double casePrice, Boolean active) {
         mItemNumber = itemNumber;
         mItemDescription = itemDescription;
@@ -26,6 +35,13 @@ public class Beverage {
         mActive = active;
     }
 
+    /**
+     * Create a new Beverage model from an ordered array of
+     * relevant beverage information
+     * @param tokens array of string tokens
+     * @return Beverage or null
+     */
+    @Nullable
     public static Beverage fromTokens(String[] tokens) {
         if (tokens.length == 5) {
             return new Beverage(tokens[0],

@@ -26,10 +26,14 @@ public class WinePagerActivity extends FragmentActivity {
 
     private static final String EXTRA_ITEM_NUMBER = "edu.kvcc.cis298.cis298assignment3.item_number";
 
-    private ViewPager mViewPager;
-    private AbstractBeverageRepository mBeverageRepository;
     private List<Beverage> mBeverages;
 
+    /**
+     * Construct a new intent that can launch the WinePagerActivity
+     * @param packageContext Hosting activity context
+     * @param itemNumber item number of the beverage we want to focus on
+     * @return Intent
+     */
     public static Intent newIntent(Context packageContext, String itemNumber) {
         Intent intent = new Intent(packageContext, WinePagerActivity.class);
         intent.putExtra(EXTRA_ITEM_NUMBER, itemNumber);
@@ -41,15 +45,15 @@ public class WinePagerActivity extends FragmentActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_wine_pager);
 
-        mViewPager = (ViewPager) findViewById(R.id.activity_wine_pager);
+        ViewPager viewPager = (ViewPager) findViewById(R.id.activity_wine_pager);
 
-        mBeverageRepository = BeverageRepository.getInstance(this);
+        AbstractBeverageRepository beverageRepository = BeverageRepository.getInstance(this);
 
         // Add the values contained in the BeverageRepository to a list to make it easier for the
         // ViewPager to operate
-        mBeverages = new ArrayList<>(mBeverageRepository.getAll().values());
+        mBeverages = new ArrayList<>(beverageRepository.getAll().values());
         FragmentManager fragmentManager = getSupportFragmentManager();
-        mViewPager.setAdapter(new FragmentStatePagerAdapter(fragmentManager) {
+        viewPager.setAdapter(new FragmentStatePagerAdapter(fragmentManager) {
             @Override
             public Fragment getItem(int position) {
                 Beverage beverage = mBeverages.get(position);
@@ -62,8 +66,9 @@ public class WinePagerActivity extends FragmentActivity {
             }
         });
 
+        // Pull the itemNumber from the activity's arguments
         String itemNumber = getIntent().getStringExtra(EXTRA_ITEM_NUMBER);
-        Beverage beverage = mBeverageRepository.get(itemNumber);
-        mViewPager.setCurrentItem(mBeverages.indexOf(beverage));
+        Beverage beverage = beverageRepository.get(itemNumber);
+        viewPager.setCurrentItem(mBeverages.indexOf(beverage));
     }
 }
