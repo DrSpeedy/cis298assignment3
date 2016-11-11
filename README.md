@@ -67,6 +67,8 @@ Through File System:   app/src/main/res/raw/
 
 ## Outside Resources Used
 
-
+Several articles on the repository design pattern (Why not try something new?)
 
 ## Known Problems, Issues, And/Or Errors in the Program
+
+None
